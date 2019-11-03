@@ -12,7 +12,7 @@
         <activity android:name=".ListaUniversidadesActivity"
             android:label="@string/ListaUniversidades"
             ></activity>
-        <activity android:name=".MainActivity"
+        <activity android:name=".CadastroUniveridadesActivity"
             android:label="@string/CadastroUniversidades"
             >
             <intent-filter>
