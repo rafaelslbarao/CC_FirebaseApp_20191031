@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,38 +11,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/descricao"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="20sp" />
 
     <EditText
         android:textSize="20sp"
         android:inputType="textCapCharacters"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etDescricao"
-        />
+        android:id="@+id/etDescricao" />
 
     <TextView
         android:textSize="20sp"
         android:layout_marginTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/ano_fundacao"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/ano_fundacao" />
 
     <EditText
         android:inputType="number"
         android:textSize="20sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etAno"
-        />
+        android:id="@+id/etAno" />
 
     <Button
         android:layout_width="wrap_content"
@@ -52,8 +41,7 @@
         android:layout_height="wrap_content"
         android:text="@string/salvar"
         android:id="@+id/btSalvar"
-        android:layout_gravity="center"
-        />
+        android:layout_gravity="center" />
 
     <Button
         android:layout_width="wrap_content"
@@ -62,7 +50,6 @@
         android:layout_height="wrap_content"
         android:text="@string/consultar"
         android:id="@+id/btConsultar"
-        android:layout_gravity="center"
-        />
+        android:layout_gravity="center" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>
