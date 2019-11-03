@@ -4,4 +4,6 @@
     <string name="ano_fundacao">Ano de Fundação</string>
     <string name="salvar">Salvar</string>
     <string name="consultar">Consultar</string>
+    <string name="CadastroUniversidades">Cadastro Universidades</string>
+    <string name="ListaUniversidades">ListaUniversidades</string>
 </resources>
