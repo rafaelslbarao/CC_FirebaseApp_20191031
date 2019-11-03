@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "324073025229",
+    "firebase_url": "https://projeto-barao-2019-firestore.firebaseio.com",
+    "project_id": "projeto-barao-2019-firestore",
+    "storage_bucket": "projeto-barao-2019-firestore.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:324073025229:android:b8f6acf1a3c08c280b4384",
+        "android_client_info": {
+          "package_name": "br.com.rafael.firebaseapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "324073025229-8cc0v30tsnqj8837r1fqluhc597agqt9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBC4QFGfAO753Hk7oC5SypNKwuxYLofEN0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "324073025229-8cc0v30tsnqj8837r1fqluhc597agqt9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

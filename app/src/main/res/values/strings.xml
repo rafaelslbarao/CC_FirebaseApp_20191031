@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">FirebaseApp</string>
+    <string name="descricao">Descrição</string>
+    <string name="ano_fundacao">Ano de Fundação</string>
+    <string name="salvar">Salvar</string>
+    <string name="consultar">Consultar</string>
+</resources>
