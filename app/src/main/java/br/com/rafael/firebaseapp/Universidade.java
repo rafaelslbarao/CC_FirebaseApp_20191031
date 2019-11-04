@@ -7,7 +7,7 @@ public class Universidade {
     private String descricao;
     private Long anoFundacao;
     @Exclude
-    public String id;
+    private String id;
 
     public Universidade() {
     }

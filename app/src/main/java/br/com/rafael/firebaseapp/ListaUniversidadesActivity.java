@@ -56,35 +56,40 @@ public class ListaUniversidadesActivity extends AppCompatActivity {
     }
 
     private void adicionaListenerAlteracaoFirestore() {
-        listenerRegistration = firebaseFirestore.collection("UNIVERSIDADES").orderBy("descricao").addSnapshotListener(listenerAlteracoesFirebase);
-
-        firebaseFirestore.collection("UNIVERSIDADES").orderBy("descricao").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                task.getResult().getDocuments().get(0).toObject(Universidade.class);
-                task.getResult().getDocuments().get(0).getId();
-            }
-        });
+        listenerRegistration = firebaseFirestore
+                .collection("UNIVERSIDADES")
+                .orderBy("descricao").addSnapshotListener(listenerAlteracoesFirebase);
     }
 
     private EventListener<QuerySnapshot> listenerAlteracoesFirebase = new EventListener<QuerySnapshot>() {
         @Override
         public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
             for (DocumentChange documentoAlterado : queryDocumentSnapshots.getDocumentChanges()) {
-                Universidade universidade = documentoAlterado.getDocument().toObject(Universidade.class);
+                Universidade universidade =
+                        documentoAlterado.getDocument().toObject(Universidade.class);
                 universidade.setId(documentoAlterado.getDocument().getId());
                 switch (documentoAlterado.getType()) {
                     case ADDED:
-                        listaUniversidades.add(universidade);
-                        rvLista.getAdapter().notifyItemInserted(listaUniversidades.indexOf(universidade));
+                        int indiceAdicionado = documentoAlterado.getNewIndex();
+                        listaUniversidades.add(indiceAdicionado, universidade);
+                        rvLista.getAdapter().notifyItemInserted(indiceAdicionado);
                         break;
                     case MODIFIED:
-                        listaUniversidades.set(listaUniversidades.indexOf(universidade), universidade);
-                        rvLista.getAdapter().notifyItemChanged(listaUniversidades.indexOf(universidade));
+                        if(documentoAlterado.getOldIndex() != documentoAlterado.getNewIndex()) {
+                            listaUniversidades.remove(universidade);
+                            listaUniversidades.add(documentoAlterado.getNewIndex(), universidade);
+                            rvLista.getAdapter().notifyItemMoved(documentoAlterado.getOldIndex(), documentoAlterado.getNewIndex());
+                            rvLista.getAdapter().notifyItemChanged(documentoAlterado.getNewIndex());
+                        }
+                        else {
+                            listaUniversidades.set(listaUniversidades.indexOf(universidade), universidade);
+                            rvLista.getAdapter().notifyItemChanged(documentoAlterado.getNewIndex());
+                        }
                         break;
                     case REMOVED:
+                        int indice = listaUniversidades.indexOf(universidade);
                         listaUniversidades.remove(universidade);
-                        rvLista.getAdapter().notifyItemRemoved(listaUniversidades.indexOf(universidade));
+                        rvLista.getAdapter().notifyItemRemoved(indice);
                         break;
                 }
             }
