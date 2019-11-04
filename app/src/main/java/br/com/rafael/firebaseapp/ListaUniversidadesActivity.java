@@ -10,13 +10,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -25,6 +23,7 @@ import java.util.List;
 public class ListaUniversidadesActivity extends AppCompatActivity {
 
     private FirebaseFirestore firebaseFirestore;
+    private ListenerRegistration listenerRegistration;
     //
     private RecyclerView rvLista;
     //
@@ -36,7 +35,13 @@ public class ListaUniversidadesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lista_universidades);
         iniciaComponentes();
         iniciaFirestore();
-        adicionaListenerFirestore();
+        adicionaListenerAlteracaoFirestore();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        listenerRegistration.remove();
     }
 
     private void iniciaComponentes() {
@@ -48,8 +53,8 @@ public class ListaUniversidadesActivity extends AppCompatActivity {
         firebaseFirestore = FirebaseFirestore.getInstance();
     }
 
-    private void adicionaListenerFirestore() {
-        firebaseFirestore.collection("UNIVERSIDADES").orderBy("descricao").addSnapshotListener(listenerAlteracoesFirebase);
+    private void adicionaListenerAlteracaoFirestore() {
+        listenerRegistration = firebaseFirestore.collection("UNIVERSIDADES").orderBy("descricao").addSnapshotListener(listenerAlteracoesFirebase);
     }
 
     private EventListener<QuerySnapshot> listenerAlteracoesFirebase = new EventListener<QuerySnapshot>() {
@@ -58,20 +63,19 @@ public class ListaUniversidadesActivity extends AppCompatActivity {
             for (DocumentChange documentoAlterado : queryDocumentSnapshots.getDocumentChanges()) {
                 Universidade universidade = documentoAlterado.getDocument().toObject(Universidade.class);
                 universidade.setId(documentoAlterado.getDocument().getId());
-                //adicionou
-                if (documentoAlterado.getOldIndex() == -1) {
-                    listaUniversidades.add(universidade);
-                    rvLista.getAdapter().notifyItemInserted(listaUniversidades.indexOf(universidade));
-                }
-                //removeu
-                else if (documentoAlterado.getNewIndex() == -1) {
-                    listaUniversidades.remove(universidade);
-                    rvLista.getAdapter().notifyItemRemoved(listaUniversidades.indexOf(universidade));
-                }
-                // alterou
-                else {
-                    listaUniversidades.set(listaUniversidades.indexOf(universidade), universidade);
-                    rvLista.getAdapter().notifyItemChanged(listaUniversidades.indexOf(universidade));
+                switch (documentoAlterado.getType()) {
+                    case ADDED:
+                        listaUniversidades.add(universidade);
+                        rvLista.getAdapter().notifyItemInserted(listaUniversidades.indexOf(universidade));
+                        break;
+                    case MODIFIED:
+                        listaUniversidades.set(listaUniversidades.indexOf(universidade), universidade);
+                        rvLista.getAdapter().notifyItemChanged(listaUniversidades.indexOf(universidade));
+                        break;
+                    case REMOVED:
+                        listaUniversidades.remove(universidade);
+                        rvLista.getAdapter().notifyItemRemoved(listaUniversidades.indexOf(universidade));
+                        break;
                 }
             }
         }
