@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -55,6 +57,14 @@ public class ListaUniversidadesActivity extends AppCompatActivity {
 
     private void adicionaListenerAlteracaoFirestore() {
         listenerRegistration = firebaseFirestore.collection("UNIVERSIDADES").orderBy("descricao").addSnapshotListener(listenerAlteracoesFirebase);
+
+        firebaseFirestore.collection("UNIVERSIDADES").orderBy("descricao").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                task.getResult().getDocuments().get(0).toObject(Universidade.class);
+                task.getResult().getDocuments().get(0).getId();
+            }
+        });
     }
 
     private EventListener<QuerySnapshot> listenerAlteracoesFirebase = new EventListener<QuerySnapshot>() {

@@ -57,16 +57,22 @@ public class CadastroUniveridadesActivity extends AppCompatActivity implements V
     }
 
     private void salvaInformacao() {
-        Universidade universidade = new Universidade();
-        universidade.setAnoFundacao(Long.parseLong(etAno.getText().toString()));
-        universidade.setDescricao(etDescricao.getText().toString());
-        firebaseFirestore
-                .collection("UNIVERSIDADES")
-                .add(universidade);
-        //
-        etAno.setText("");
-        etDescricao.setText("");
-        etDescricao.requestFocus();
+        try {
+            Universidade universidade = new Universidade();
+            universidade.setAnoFundacao(Long.parseLong(etAno.getText().toString()));
+            universidade.setDescricao(etDescricao.getText().toString());
+            firebaseFirestore
+                    .collection("UNIVERSIDADES")
+                    .add(universidade);
+            //
+            etAno.setText("");
+            etDescricao.setText("");
+            etDescricao.requestFocus();
+        }
+        catch (Exception ex)
+        {
+
+        }
     }
 
     private void abreTelaConsulta() {
